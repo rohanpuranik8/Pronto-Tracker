@@ -1,0 +1,92 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(2px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.my-button {
+  background-color: #3691bc;
+  /* Green background */
+  border: none;
+  /* No borders */
+  color: white;
+  /* White text */
+  padding: 12px 24px;
+  /* Top and bottom padding, left and right padding */
+  text-align: center;
+  /* Centered text */
+  text-decoration: none;
+  /* No underline */
+  display: inline-block;
+  /* Allows setting dimensions */
+  font-size: 16px;
+  /* Text size */
+  margin: 20px 2px;
+  /* Margin around the button */
+  cursor: pointer;
+  /* Mouse cursor changes to pointer to indicate it's clickable */
+  border-radius: 8px;
+  /* Rounded corners */
+  transition-duration: 0.4s;
+  /* Transition effect when hovering */
+}
+
+.my-button:hover {
+  background-color: #1a5671;
+  /* Darker shade of green when hovering */
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  /* Adds shadow for 3D effect */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #1a5671;
+}
+
+tr:nth-child(even) {
+  background-color: #1a5671;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
