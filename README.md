@@ -31,14 +31,24 @@ bash
 pip install -r requirements.txt
 
 Start the Flask application:
-bash
+
+bash:
+
 flask run
+
+
+
 Setting up the Frontend
 
 
+
+
 Navigate to the frontend directory and install the necessary npm packages:
+
 bash
+
 cd ../vehicle-metrics-dashboard
+
 npm install
 
 
