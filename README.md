@@ -1,4 +1,6 @@
 ProntoApp
+
+
 ProntoApp is a dynamic vehicle tracking application designed to monitor and display real-time metrics of vehicles. Built with React, Flask, and SQLite, it showcases vehicle positions on an interactive map and ranks vehicles based on their maximum measurements.
 
 Features
