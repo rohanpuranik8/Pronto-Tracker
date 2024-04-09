@@ -13,21 +13,32 @@ Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 Prerequisites
+
 Node.js and npm
+
 Python 3
+
 Flask
+
 SQLite
+
 Installing
 
 Clone the repository:
+
 bash
+
 git clone https://github.com/rohanpuranik8/prontoapp.git
+
 cd prontoapp
+
 
 Setting up the Backend
 
 Install the required Python packages:
+
 bash
+
 pip install -r requirements.txt
 
 Start the Flask application:
@@ -36,12 +47,7 @@ bash:
 
 flask run
 
-
-
 Setting up the Frontend
-
-
-
 
 Navigate to the frontend directory and install the necessary npm packages:
 
@@ -51,11 +57,13 @@ cd ../vehicle-metrics-dashboard
 
 npm install
 
-
 Start the React development server:
+
 bash
+
 npm start
-The application should now be running and accessible at http://localhost:3000.
+
+The application should now be running and accessible at http://localhost:3000/metrics.
 
 Usage
 Navigate to http://localhost:3000 in your web browser to view the application. The main page displays a map with real-time vehicle positions and a sidebar listing the top-ranked vehicles based on their maximum measurement.
