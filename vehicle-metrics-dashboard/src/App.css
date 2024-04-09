@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  height: 100vh;
+  /* Ensure the app fills the full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  /* Stack header and any other elements vertically */
 }
 
 .App-logo {
@@ -15,17 +20,58 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* Use Flexbox */
+  flex-direction: row;
+  /* Arrange children side by side */
   justify-content: center;
+  /* Center children horizontally */
+  align-items: start;
+  /* Align items to the start of the flex container */
+  height: 100%;
+  /* Take up all available space */
+  width: 100%;
+  /* Ensure the header fills the full width */
   font-size: calc(2px + 2vmin);
   color: white;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.VehicleList{
+  flex: 1; /* Allow both components to grow equally */
+  height: 100%; /* Optional: If you want each component to fill the available vertical space */
+  padding: 100px;
+}
+
+.Monitor {
+  flex: 1;
+  /* Allow both components to grow equally */
+  height: 100%;
+  /* Optional: If you want each component to fill the available vertical space */
+  padding: 100px;
+
+  margin-top: 100px;
+}
+
+/* Base styling for all arrow markers */
+.leaflet-arrowhead-marker {
+  border: solid black;
+  display: inline-block;
+  padding: 1px;
+  transform: rotate(-135deg);
+}
+
+.arrowhead-rank-0 {
+  border-bottom: 3px solid black;
+}
+
+/* You can continue for more ranks or use a default style */
+.arrowhead-default {
+  border-bottom: 8px solid gray;
+  /* Default color if rank is beyond defined styles */
 }
 
 .my-button {

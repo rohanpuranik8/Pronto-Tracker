@@ -7,8 +7,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <VehicleList /> {/* Use the component */}
-        <Monitor />{/* Use the component */}
+        <div className="VehicleList">
+          <VehicleList />{ /*Use the component */}
+        </div>
+        <div className="Monitor">
+          <Monitor />{/* Use the component */}
+        </div>
       </header>
     </div>
   );
