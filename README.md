@@ -63,7 +63,7 @@ bash
 
 npm start
 
-The application should now be running and accessible at http://localhost:3000/.
+The application should now be running and accessible at http://localhost:3000.
 
 Usage
 Navigate to http://localhost:3000 in your web browser to view the application. The main page displays a map with real-time vehicle positions and a sidebar listing the top-ranked vehicles based on their maximum measurement.
