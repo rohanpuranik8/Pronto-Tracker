@@ -18,29 +18,31 @@ Python 3
 Flask
 SQLite
 Installing
+
 Clone the repository:
-
 bash
-git clone https://github.com/<your-username>/prontoapp.git
+git clone https://github.com/rohanpuranik8/prontoapp.git
 cd prontoapp
+
 Setting up the Backend
-Navigate to the backend directory and install the required Python packages:
 
+Install the required Python packages:
 bash
-cd backend
 pip install -r requirements.txt
-Start the Flask application:
 
+Start the Flask application:
 bash
 flask run
 Setting up the Frontend
+
+
 Navigate to the frontend directory and install the necessary npm packages:
-
 bash
-cd ../frontend
+cd ../vehicle-metrics-dashboard
 npm install
-Start the React development server:
 
+
+Start the React development server:
 bash
 npm start
 The application should now be running and accessible at http://localhost:3000.
