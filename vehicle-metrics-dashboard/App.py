@@ -30,7 +30,7 @@ def create_database():
     # Create the table
     c.execute(
         """
-    CREATE TABLE IF NOT EXISTS vehicle_measurements (
+        CREATE TABLE IF NOT EXISTS vehicle_measurements (
         measurement_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         latitude REAL,
@@ -51,21 +51,6 @@ def get_vehicle_metrics():
     cur = conn.cursor()
 
     # Updated query to fetch last position correctly
-    """cur.execute(
-        
-        SELECT temp.name, MAX(temp.measurement), AVG(temp.measurement), MIN(temp.measurement), temp.latitude, temp.longitude, temp.heading, temp.id
-        from
-        (
-        select measurement_id, name, measurement, latitude, longitude, heading, id
-        from vehicle_measurements
-        order by measurement_id desc
-        ) temp
-        group by temp.name
-        order by MAX(temp.measurement) desc
-        LIMIT 10
-    
-    )
-    """
 
     cur.execute(
         """
@@ -74,17 +59,20 @@ def get_vehicle_metrics():
         agg.max_measurement, 
         agg.avg_measurement, 
         agg.min_measurement, 
+        agg.total_measurement,
         latest_entry.latitude AS last_lat, 
         latest_entry.longitude AS last_lon, 
         latest_entry.heading AS last_heading, 
-        latest_entry.id
+        latest_entry.measurement_id
     FROM
         (SELECT 
             name, 
             MAX(measurement) AS max_measurement, 
             AVG(measurement) AS avg_measurement, 
             MIN(measurement) AS min_measurement,
+            COUNT(measurement) AS total_measurement,
             MAX(measurement_id) AS latest_measurement_id 
+            
         FROM vehicle_measurements
         GROUP BY name
     ) AS agg
@@ -105,10 +93,10 @@ def get_vehicle_metrics():
             "max_measurement": row[1],
             "average_measurement": round(row[2], 1),
             "min_measurement": row[3],
-            "last_lat": row[4],
-            "last_lon": row[5],
-            "last_heading": row[6],
-            "id": row[7],
+            "total_measurements": row[4],  # Ensure this matches your alias in the SQL
+            "last_lat": row[5],
+            "last_lon": row[6],
+            "last_heading": row[7],
         }
         for row in rows
     ]
@@ -182,7 +170,7 @@ def insert_measurement(name, lat, lon, heading, measurement, id):
         with sqlite3.connect("vehicle_data.db", check_same_thread=False) as conn:
             c = conn.cursor()
             c.execute(
-                """INSERT INTO vehicle_measurements (name, latitude, longitude, heading, measurement, id) VALUES (?, ?, ?, ?, ?, ?)""",
+                """INSERT INTO vehicle_measurements ( name, latitude, longitude, heading, measurement, id) VALUES (?, ?, ?, ?, ?, ?)""",
                 (name, lat, lon, heading, measurement, id),
             )
             # Auto-commit is enabled with the 'with' statement

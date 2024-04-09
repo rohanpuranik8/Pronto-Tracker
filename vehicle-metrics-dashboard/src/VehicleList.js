@@ -44,6 +44,7 @@ function VehicleList() {
             <th>Last Latitude </th>
             <th>Last Longitude </th>
             <th>Last Heading </th>
+            <th>Total Data Points </th>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +58,7 @@ function VehicleList() {
               <td>{vehicle.last_lat}</td>
               <td>{vehicle.last_lon}</td>
               <td>{vehicle.last_heading}</td>
+              <td>{vehicle.total_measurements}</td>
             </tr>
           ))}
         </tbody>
