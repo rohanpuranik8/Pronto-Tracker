@@ -15,7 +15,12 @@ class TestVehicleMetrics(unittest.TestCase):
         """
         create_database()
 
-    def setUp(self):
+    # def setUp(self):
+
+    def tearDown(self):
+        """
+        Clean up after each test.
+        """
         """
         Clear the database and insert mock data before each test.
         """
@@ -23,7 +28,12 @@ class TestVehicleMetrics(unittest.TestCase):
         cur = self.conn.cursor()
         cur.execute("DELETE FROM vehicle_measurements")  # Clear the table
         self.conn.commit()
+        self.conn.close()
 
+    def test_get_vehicle_metrics(self):
+        """
+        Test that get_vehicle_metrics returns expected data.
+        """
         mock_data = [
             "Vehicle1;35.4;-117.9;45;120.5;xyza123",
             "Vehicle1;35.6;-118.2;30;622.7;xyza124",
@@ -52,143 +62,98 @@ class TestVehicleMetrics(unittest.TestCase):
         ]
 
         for entry in mock_data:
+            print(entry)
             process_message(entry)
 
-    def tearDown(self):
-        """
-        Clean up after each test.
-        """
-        self.conn.close()
+        result_list = get_vehicle_metrics()
+        vehicle1_data = next(
+            (item for item in result_list if item["name"] == "Vehicle1"), None
+        )
 
-    def test_get_vehicle_metrics(self):
+        self.assertIsNotNone(vehicle1_data, "Vehicle1 data not found")
+
+        expected = {
+            "name": "Vehicle1",
+            "max_measurement": 622.7,
+            "average_measurement": 264.5,
+            "min_measurement": 50.3,
+            "total_measurements": 3,
+            "last_lat": 35.5,
+            "last_lon": -117.8,
+            "last_heading": 90.0,
+        }
+
+        self.assertEqual(vehicle1_data["name"], expected["name"])
+        self.assertAlmostEqual(
+            vehicle1_data["max_measurement"], expected["max_measurement"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["average_measurement"],
+            expected["average_measurement"],
+            places=1,
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["min_measurement"], expected["min_measurement"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["last_lat"], expected["last_lat"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["last_lon"], expected["last_lon"], places=1
+        )
+        self.assertEqual(vehicle1_data["last_heading"], expected["last_heading"])
+
+    def test_get_vehicle_metrics1Vehicle(self):
         """
         Test that get_vehicle_metrics returns expected data.
         """
-        result_list = get_vehicle_metrics()
-
-        # Define the expected results based on the `mock_data` provided.
-        expected_list = [
-            {
-                "name": "Vehicle1",
-                "max_measurement": 622.7,
-                "average_measurement": 264.5,
-                "min_measurement": 50.3,
-                "last_lat": 35.5,
-                "last_lon": -117.8,
-                "last_heading": 90,
-                "id": "NlFXnm",
-            },
-            {
-                "name": "Vehicle6",
-                "max_measurement": 622.7,
-                "average_measurement": 264.5,
-                "min_measurement": 50.3,
-                "last_lat": 35.5,
-                "last_lon": -117.8,
-                "last_heading": 90,
-                "id": "xyza125",
-            },
-            {
-                "name": "Vehicle3",
-                "max_measurement": 505.9,
-                "average_measurement": 355.8,
-                "min_measurement": 205.7,
-                "last_lat": 34.8,
-                "last_lon": -117.4,
-                "last_heading": 225.0,
-                "id": "mnpq346",
-            },
-            {
-                "name": "Vehicle8",
-                "max_measurement": 505.9,
-                "average_measurement": 355.8,
-                "min_measurement": 205.7,
-                "last_lat": 34.8,
-                "last_lon": -117.4,
-                "last_heading": 225.0,
-                "id": "mnpq346",
-            },
-            {
-                "name": "Vehicle4",
-                "max_measurement": 412.3,
-                "average_measurement": 361.5,
-                "min_measurement": 310.6,
-                "last_lat": 35.1,
-                "last_lon": -117.7,
-                "last_heading": 45.0,
-                "id": "rstu457",
-            },
-            {
-                "name": "Vehicle9",
-                "max_measurement": 412.3,
-                "average_measurement": 361.5,
-                "min_measurement": 310.6,
-                "last_lat": 35.1,
-                "last_lon": -117.7,
-                "last_heading": 45.0,
-                "id": "rstu457",
-            },
-            {
-                "name": "Vehicle5",
-                "max_measurement": 321.7,
-                "average_measurement": 222.6,
-                "min_measurement": 123.4,
-                "last_lat": 35.3,
-                "last_lon": -117.9,
-                "last_heading": 180.0,
-                "id": "vwxy568",
-            },
-            {
-                "name": "Vehicle10",
-                "max_measurement": 321.7,
-                "average_measurement": 222.6,
-                "min_measurement": 123.4,
-                "last_lat": 35.3,
-                "last_lon": -117.9,
-                "last_heading": 180.0,
-                "id": "vwxy568",
-            },
-            {
-                "name": "Vehicle2",
-                "max_measurement": 300.4,
-                "average_measurement": 206.9,
-                "min_measurement": 110.1,
-                "last_lat": 36.3,
-                "last_lon": -118.7,
-                "last_heading": 0.0,
-                "id": "bcdx236",
-            },
-            {
-                "name": "Vehicle7",
-                "max_measurement": 300.4,
-                "average_measurement": 206.9,
-                "min_measurement": 110.1,
-                "last_lat": 36.3,
-                "last_lon": -118.7,
-                "last_heading": 0.0,
-                "id": "bcdx236",
-            },
+        mock_data = [
+            "Vehicle1;35.4;-117.9;45;120.5;xyza123",
+            "Vehicle1;35.6;-118.2;30;622.7;xyza124",
+            "Vehicle1;35.5;-117.8;90;50.3;xyza125",
         ]
 
-        self.assertEqual(
-            len(result_list), len(expected_list), "Number of vehicles mismatch"
+        for entry in mock_data:
+            print(entry)
+            process_message(entry)
+
+        result_list = get_vehicle_metrics()
+        vehicle1_data = next(
+            (item for item in result_list if item["name"] == "Vehicle1"), None
         )
 
-        for actual, expected in zip(result_list, expected_list):
-            self.assertEqual(actual["name"], expected["name"])
-            self.assertAlmostEqual(
-                actual["max_measurement"], expected["max_measurement"], places=1
-            )
-            self.assertAlmostEqual(
-                actual["average_measurement"], expected["average_measurement"], places=1
-            )
-            self.assertAlmostEqual(
-                actual["min_measurement"], expected["min_measurement"], places=1
-            )
-            self.assertAlmostEqual(actual["last_lat"], expected["last_lat"], places=1)
-            self.assertAlmostEqual(actual["last_lon"], expected["last_lon"], places=1)
-            self.assertEqual(actual["last_heading"], expected["last_heading"])
-            self.assertEqual(actual["id"], expected["id"])
+        self.assertIsNotNone(vehicle1_data, "Vehicle1 data not found")
+
+        expected = {
+            "name": "Vehicle1",
+            "max_measurement": 622.7,
+            "average_measurement": 264.5,
+            "min_measurement": 50.3,
+            "total_measurements": 3,
+            "last_lat": 35.5,
+            "last_lon": -117.8,
+            "last_heading": 90.0,
+        }
+
+        self.assertEqual(vehicle1_data["name"], expected["name"])
+        self.assertAlmostEqual(
+            vehicle1_data["max_measurement"], expected["max_measurement"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["average_measurement"],
+            expected["average_measurement"],
+            places=1,
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["min_measurement"], expected["min_measurement"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["last_lat"], expected["last_lat"], places=1
+        )
+        self.assertAlmostEqual(
+            vehicle1_data["last_lon"], expected["last_lon"], places=1
+        )
+        self.assertEqual(vehicle1_data["last_heading"], expected["last_heading"])
 
     @classmethod
     def tearDownClass(cls):

@@ -6,6 +6,8 @@ import zmq
 from collections import defaultdict
 import sqlite3
 
+app = Flask(__name__)
+
 ##################################################################################################################################
 # Unit for Real-time data analysis for vehicle metrics
 ####################################################################################################################################
@@ -189,20 +191,14 @@ def insert_measurement(name, lat, lon, heading, measurement, id):
 
 
 ####################################################################################################################################
+def initialize_flask_app():
+    CORS(app)
+    log = logging.getLogger("werkzeug")
+    log.setLevel(logging.WARNING)
+    create_database()
+    threading.Thread(target=process_data, daemon=True).start()
+    return app
 
-# Initialize the Flask app
-app = Flask(__name__)
-CORS(app)
-
-# Set the log level to warning, effectively hiding access logs
-log = logging.getLogger("werkzeug")
-log.setLevel(logging.WARNING)
-
-# Start the database
-create_database()
-
-# Start a thread for data processing (either mock or real)
-threading.Thread(target=process_data, daemon=True).start()
 
 ##################################################################################################################################
 # Route to get the vehicle metrics
@@ -224,9 +220,11 @@ def clear_database():
     conn.close()
     return jsonify({"message": "Database cleared successfully"})
 
+    ##################################################################################################################################
+    # Run API
+    ####################################################################################################################################
 
-##################################################################################################################################
-# Run API
-####################################################################################################################################
+
 if __name__ == "__main__":
+    app = initialize_flask_app()
     app.run(debug=True)
