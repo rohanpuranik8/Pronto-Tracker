@@ -5,10 +5,10 @@ import L from 'leaflet';
 
 
 // Function to get a divIcon based on vehicle index (rank)
-const getArrowheadIcon = (index) => {
+const getArrowheadIcon = () => {
   // Construct class name dynamically. If the index is beyond your specific styles, use a default class.
   const className = `leaflet-arrowhead-marker arrowhead-rank-0` || 'leaflet-arrowhead-marker arrowhead-default';
-  return L.divIcon({ className: className, iconSize: L.point(20, 20) }); // Adjust iconSize as needed
+  return L.divIcon({ className: className, iconSize: L.point(10, 10) }); // Adjust iconSize as needed
 };
 
 const Monitor = () => {
