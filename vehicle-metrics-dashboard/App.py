@@ -8,18 +8,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-##################################################################################################################################
-# Unit for Real-time data analysis for vehicle metrics
-####################################################################################################################################
-
-data = defaultdict(
-    lambda: {
-        "measurements": [],
-        "last_position": (None, None, None),
-        "id": (None),
-    }
-)
-
 
 ##################################################################################################################################
 # Functions to create the database, get the vehicle metrics and process the data
@@ -136,34 +124,9 @@ def process_message(message):
     # Split the message into its components
     name, lat, lon, heading, measurement, id = message.split(";")
     # Convert appropriate fields from the message
-    message = update_data(
+    message = insert_measurement(
         name, float(lat), float(lon), float(heading), float(measurement), id
     )
-    # print(f"Updated data for {name}: {data[name]}")
-    return message
-
-
-def update_data(name, lat, lon, heading, measurement, id):
-    # Check if the vehicle name is already in the data dictionary
-    if name not in data:
-        data[name] = {
-            "measurements": [],
-            "last_position": (None, None, None),
-            "id": None,
-        }
-
-    # Update the data dictionary with the new measurement
-    vehicle_data = data[name]
-    vehicle_data["measurements"].append(measurement)  # Append the new measurement
-    vehicle_data["last_position"] = (
-        lat,
-        lon,  # Update the last known position
-        heading,
-    )
-    vehicle_data["id"] = id  # Update the vehicle ID
-
-    # Call the insert_measurement function to insert data into the database
-    insert_measurement(name, lat, lon, heading, measurement, id)
 
 
 def insert_measurement(name, lat, lon, heading, measurement, id):
@@ -176,7 +139,7 @@ def insert_measurement(name, lat, lon, heading, measurement, id):
                 (name, lat, lon, heading, measurement, id),
             )
             # Auto-commit is enabled with the 'with' statement
-            print(f"Successfully inserted measurement for {name}: {data[name]}.")
+            # print(f"Successfully inserted measurement for {name}: {data[name]}.")
     except sqlite3.IntegrityError as e:
         print(f"IntegrityError: Constraint violation for {name}. Error: {e}")
     except sqlite3.OperationalError as e:
