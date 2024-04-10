@@ -3,7 +3,6 @@ from flask_cors import CORS
 import threading
 import logging
 import zmq
-from collections import defaultdict
 import sqlite3
 
 app = Flask(__name__)
@@ -156,8 +155,10 @@ def insert_measurement(name, lat, lon, heading, measurement, id):
 ####################################################################################################################################
 def initialize_flask_app():
     CORS(app)
+    # cross origin resource sharing
     log = logging.getLogger("werkzeug")
     log.setLevel(logging.WARNING)
+    # Stop the log messages from being displayed on the console
     create_database()
     threading.Thread(target=process_data, daemon=True).start()
     return app
