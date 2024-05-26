@@ -1,7 +1,4 @@
-ProntoApp
-
-
-ProntoApp is a dynamic vehicle tracking application designed to monitor and display real-time metrics of vehicles. Built with React, Flask, and SQLite, it showcases vehicle positions on an interactive map and ranks vehicles based on their maximum measurements.
+Pronto Tracker is a dynamic vehicle tracking application designed to monitor and display real-time metrics of vehicles. Built with React, Flask, and SQLite, it showcases vehicle positions on an interactive map and ranks vehicles based on their maximum measurements.
 
 Features
 real-time vehicle data visualization on an interactive map.
@@ -77,7 +74,6 @@ Fetch Top 10 Vehicles
 URL: /api/metrics
 Method: GET
 Description: Retrieves metrics for the top 10 ranked vehicles.
-
 
 License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
